@@ -13,6 +13,7 @@ class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    private let hero = SKSpriteNode(imageNamed: "hero")
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.black
@@ -20,8 +21,11 @@ class GameScene: SKScene {
         // create a sprite
         let background = SKSpriteNode(imageNamed: "background1")
         addChild(background)
-        background.anchorPoint = .zero
+        //background.anchorPoint = .zero
         background.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        hero.position = CGPoint(x: 400, y: 400)
+        addChild(hero)
     }
     
     
