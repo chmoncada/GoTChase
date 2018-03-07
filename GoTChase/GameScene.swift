@@ -20,6 +20,7 @@ class GameScene: SKScene {
         // create a sprite
         let background = SKSpriteNode(imageNamed: "background1")
         addChild(background)
+        background.anchorPoint = .zero
         background.position = CGPoint(x: size.width/2, y: size.height/2)
     }
     
