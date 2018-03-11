@@ -14,6 +14,8 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     private let hero = SKSpriteNode(imageNamed: "hero")
+    let heroMovePointsPerSecond: CGFloat = 480
+    var velocity = CGPoint.zero
     
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
@@ -93,7 +95,18 @@ class GameScene: SKScene {
         lastUpdateTime = currentTime
         print("\(dt*1000) milliseconds since last update")
         
-        hero.position = CGPoint(x: hero.position.x + 8,
-                                y: hero.position.y)
+        move(sprite: hero, velocity: CGPoint(x: heroMovePointsPerSecond, y: 0))
     }
+    
+    func move(sprite: SKSpriteNode, velocity: CGPoint) {
+        
+        let amountToMove = CGPoint(x: velocity.x * CGFloat(dt),
+                                   y: velocity.y * CGFloat(dt))
+        print("Amount to move: \(amountToMove)")
+        
+        sprite.position = CGPoint(
+            x: sprite.position.x + amountToMove.x,
+            y: sprite.position.y + amountToMove.y)
+    }
+    
 }
