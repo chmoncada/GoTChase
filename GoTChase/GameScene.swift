@@ -81,6 +81,7 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        hero.position = CGPoint(x: hero.position.x + 8,
+                                y: hero.position.y)
     }
 }
