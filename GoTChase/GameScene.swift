@@ -28,8 +28,9 @@ class GameScene: SKScene {
         hero.position = CGPoint(x: 400, y: 400)
         
         // rotacion
-        hero.anchorPoint = .zero
-        hero.zRotation = .pi/8
+        //hero.anchorPoint = .zero
+        //hero.zRotation = .pi/8
+        
         addChild(hero)
     }
     
