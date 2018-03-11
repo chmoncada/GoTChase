@@ -109,4 +109,20 @@ class GameScene: SKScene {
             y: sprite.position.y + amountToMove.y)
     }
     
+    func moveHeroToward(location: CGPoint) {
+        // 1 Calculate the direccion where the hero should go
+        let offset = CGPoint(x: location.x - hero.position.x,
+                             y: location.y - hero.position.y)
+        // 2 Calculate the length
+        let length = sqrt(Double(offset.x * offset.x + offset.y * offset.y))
+        
+        // 3 normalize the offset vector to unit vector
+        let direccion = CGPoint(x: offset.x / CGFloat(length),
+                                y: offset.y / CGFloat(length))
+        
+        // 4 calculate the velocity using the unit vector
+        velocity = CGPoint(x: direccion.x * heroMovePointsPerSecond,
+                           y: direccion.y * heroMovePointsPerSecond)
+    }
+    
 }
