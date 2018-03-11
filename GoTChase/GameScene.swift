@@ -15,6 +15,9 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     private let hero = SKSpriteNode(imageNamed: "hero")
     
+    var lastUpdateTime: TimeInterval = 0
+    var dt: TimeInterval = 0
+    
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.black
         
@@ -81,6 +84,15 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
+        
+        if lastUpdateTime > 0 {
+            dt = currentTime - lastUpdateTime
+        } else {
+            dt = 0
+        }
+        lastUpdateTime = currentTime
+        print("\(dt*1000) milliseconds since last update")
+        
         hero.position = CGPoint(x: hero.position.x + 8,
                                 y: hero.position.y)
     }
