@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1730B7B205609A1005E4EDE /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1730B7A205609A1005E4EDE /* MyUtils.swift */; };
 		A19EF1F0204CBE3E000B95B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19EF1EF204CBE3E000B95B4 /* AppDelegate.swift */; };
 		A19EF1F6204CBE3E000B95B4 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19EF1F5204CBE3E000B95B4 /* GameScene.swift */; };
 		A19EF1F8204CBE3E000B95B4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19EF1F7204CBE3E000B95B4 /* GameViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A1730B7A205609A1005E4EDE /* MyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
 		A19EF1EC204CBE3E000B95B4 /* GoTChase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTChase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A19EF1EF204CBE3E000B95B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A19EF1F5204CBE3E000B95B4 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				A19EF1EF204CBE3E000B95B4 /* AppDelegate.swift */,
+				A1730B7A205609A1005E4EDE /* MyUtils.swift */,
 				A19EF1F5204CBE3E000B95B4 /* GameScene.swift */,
 				A19EF1F7204CBE3E000B95B4 /* GameViewController.swift */,
 				A19EF1F9204CBE3E000B95B4 /* Main.storyboard */,
@@ -142,6 +145,7 @@
 				A19EF1F6204CBE3E000B95B4 /* GameScene.swift in Sources */,
 				A19EF1F8204CBE3E000B95B4 /* GameViewController.swift in Sources */,
 				A19EF1F0204CBE3E000B95B4 /* AppDelegate.swift in Sources */,
+				A1730B7B205609A1005E4EDE /* MyUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
