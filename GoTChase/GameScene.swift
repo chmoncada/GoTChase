@@ -20,6 +20,8 @@ class GameScene: SKScene {
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     
+    
+    
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.black
         
@@ -70,6 +72,8 @@ class GameScene: SKScene {
         print("\(dt*1000) milliseconds since last update")
         
         move(sprite: hero, velocity: velocity)
+        
+        boundsCheckHero()
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
@@ -97,6 +101,28 @@ class GameScene: SKScene {
         // 4 calculate the velocity using the unit vector
         velocity = CGPoint(x: direccion.x * heroMovePointsPerSecond,
                            y: direccion.y * heroMovePointsPerSecond)
+    }
+    
+    func boundsCheckHero() {
+        let bottomLeft = CGPoint.zero
+        let topRight = CGPoint(x: size.width, y: size.height)
+        
+        if hero.position.x <= bottomLeft.x {
+            hero.position.x = bottomLeft.x
+            velocity.x = -velocity.x
+        }
+        if hero.position.x >= topRight.x {
+            hero.position.x = topRight.x
+            velocity.x = -velocity.x
+        }
+        if hero.position.y <= bottomLeft.y {
+            hero.position.y = bottomLeft.y
+            velocity.y = -velocity.y
+        }
+        if hero.position.y >= topRight.y {
+            hero.position.y = topRight.y
+            velocity.y = -velocity.y
+        }
     }
     
 }
