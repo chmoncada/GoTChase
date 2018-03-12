@@ -102,29 +102,22 @@ class GameScene: SKScene {
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
         
-        let amountToMove = CGPoint(x: velocity.x * CGFloat(dt),
-                                   y: velocity.y * CGFloat(dt))
+        let amountToMove = velocity * CGFloat(dt)
         print("Amount to move: \(amountToMove)")
-        
-        sprite.position = CGPoint(
-            x: sprite.position.x + amountToMove.x,
-            y: sprite.position.y + amountToMove.y)
+        sprite.position += amountToMove
     }
     
     func moveHeroToward(location: CGPoint) {
         // 1 Calculate the direccion where the hero should go
-        let offset = CGPoint(x: location.x - hero.position.x,
-                             y: location.y - hero.position.y)
+        let offset = location - hero.position
         // 2 Calculate the length
-        let length = sqrt(Double(offset.x * offset.x + offset.y * offset.y))
+        //let length = offset.length()
         
         // 3 normalize the offset vector to unit vector
-        let direccion = CGPoint(x: offset.x / CGFloat(length),
-                                y: offset.y / CGFloat(length))
+        let direccion = offset.normalized()
         
         // 4 calculate the velocity using the unit vector
-        velocity = CGPoint(x: direccion.x * heroMovePointsPerSecond,
-                           y: direccion.y * heroMovePointsPerSecond)
+        velocity = direccion * heroMovePointsPerSecond
     }
     
     func boundsCheckHero() {
@@ -150,7 +143,7 @@ class GameScene: SKScene {
     }
     
     func rotate(sprite: SKSpriteNode, direction: CGPoint) {
-        sprite.zRotation = atan2(direction.y, direction.x)
+        sprite.zRotation = direction.angle
     }
     
 }
