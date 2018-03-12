@@ -20,7 +20,28 @@ class GameScene: SKScene {
     var lastUpdateTime: TimeInterval = 0
     var dt: TimeInterval = 0
     
+    let playableRect: CGRect
     
+    override init(size: CGSize) {
+        let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
+        let playableHeight = size.width / maxAspectRatio
+        let playableMargin = (size.height - playableHeight)/2
+        playableRect = CGRect(x: 0, y: playableMargin,
+                              width: size.width,
+                              height: playableHeight)
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func debugDrawPlatableArea() {
+        let shape = SKShapeNode(rect: playableRect)
+        shape.strokeColor = SKColor.red
+        shape.lineWidth = 4
+        addChild(shape)
+    }
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.black
@@ -39,6 +60,8 @@ class GameScene: SKScene {
         //hero.zRotation = .pi/8
         
         addChild(hero)
+        
+        debugDrawPlatableArea()
     }
     
     func sceneTouched(touchLocation:CGPoint) {
@@ -104,8 +127,8 @@ class GameScene: SKScene {
     }
     
     func boundsCheckHero() {
-        let bottomLeft = CGPoint.zero
-        let topRight = CGPoint(x: size.width, y: size.height)
+        let bottomLeft = CGPoint(x: 0, y: playableRect.minY)
+        let topRight = CGPoint(x: size.width, y: playableRect.maxY)
         
         if hero.position.x <= bottomLeft.x {
             hero.position.x = bottomLeft.x
