@@ -97,6 +97,7 @@ class GameScene: SKScene {
         move(sprite: hero, velocity: velocity)
         
         boundsCheckHero()
+        rotate(sprite: hero, direction: velocity)
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
@@ -146,6 +147,10 @@ class GameScene: SKScene {
             hero.position.y = topRight.y
             velocity.y = -velocity.y
         }
+    }
+    
+    func rotate(sprite: SKSpriteNode, direction: CGPoint) {
+        sprite.zRotation = atan2(direction.y, direction.x)
     }
     
 }
