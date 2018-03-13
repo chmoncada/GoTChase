@@ -23,6 +23,8 @@ class GameScene: SKScene {
     let playableRect: CGRect
     var lastTouchLocation: CGPoint?
     
+    let heroRotateRadiansPerSec: CGFloat = 4.0 * π
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -94,7 +96,7 @@ class GameScene: SKScene {
             dt = 0
         }
         lastUpdateTime = currentTime
-        print("\(dt*1000) milliseconds since last update")
+        // print("\(dt*1000) milliseconds since last update")
         
         if let lastTouchLocation = lastTouchLocation {
             let diff = lastTouchLocation - hero.position
@@ -103,7 +105,7 @@ class GameScene: SKScene {
                 velocity = .zero
             } else {
                 move(sprite: hero, velocity: velocity)
-                rotate(sprite: hero, direction: velocity)
+                rotate(sprite: hero, direction: velocity, rotateRadiansPerSec: heroRotateRadiansPerSec)
             }
         }
         
@@ -114,7 +116,7 @@ class GameScene: SKScene {
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
         
         let amountToMove = velocity * CGFloat(dt)
-        print("Amount to move: \(amountToMove)")
+        //print("Amount to move: \(amountToMove)")
         sprite.position += amountToMove
     }
     
@@ -153,8 +155,11 @@ class GameScene: SKScene {
         }
     }
     
-    func rotate(sprite: SKSpriteNode, direction: CGPoint) {
-        sprite.zRotation = direction.angle
+    func rotate(sprite: SKSpriteNode, direction: CGPoint, rotateRadiansPerSec: CGFloat) {
+        let shortest = shortestAngleBetween(angle1: sprite.zRotation, angle2: direction.angle)
+        let amountToRotate = min(rotateRadiansPerSec * CGFloat(dt), abs(shortest))
+        sprite.zRotation += shortest.sign() * amountToRotate
+        
     }
     
 }
