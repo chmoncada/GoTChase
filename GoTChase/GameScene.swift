@@ -169,11 +169,19 @@ class GameScene: SKScene {
                                  y: size.height/2)
         addChild(enemy)
         
-        let actionMove = SKAction.move(
-            to: CGPoint(x: -enemy.size.width/2, y: enemy.position.y),
-            duration: 2)
+        let actionMidMove = SKAction.move(
+            to: CGPoint(x: size.width/2,
+                        y: playableRect.minY + enemy.size.height/2),
+            duration: 1)
         
-        enemy.run(actionMove)
+        let actionMove = SKAction.move(
+            to: CGPoint(x: -enemy.size.width/2,
+                        y: playableRect.minY + enemy.position.y),
+            duration: 1)
+        
+        let sequence = SKAction.sequence([actionMidMove, actionMove])
+        
+        enemy.run(sequence)
         
     }
     
