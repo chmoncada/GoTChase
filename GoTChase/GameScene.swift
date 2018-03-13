@@ -177,7 +177,9 @@ class GameScene: SKScene {
         addChild(enemy)
         
         let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2)
-        enemy.run(actionMove)
+        let actionRemove = SKAction.removeFromParent()
+        
+        enemy.run(SKAction.sequence([actionMove, actionRemove]))
         
     }
     
