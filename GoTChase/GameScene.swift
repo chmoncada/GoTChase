@@ -169,19 +169,26 @@ class GameScene: SKScene {
                                  y: size.height/2)
         addChild(enemy)
         
-        let actionMidMove = SKAction.move(
-            to: CGPoint(x: size.width/2,
-                        y: playableRect.minY + enemy.size.height/2),
+        let actionMidMove = SKAction.moveBy(
+            x: -size.width/2 - enemy.size.height/2,
+            y: -playableRect.height/2 + enemy.size.height/2,
             duration: 1)
         
-        let actionMove = SKAction.move(
-            to: CGPoint(x: -enemy.size.width/2,
-                        y: playableRect.minY + enemy.position.y),
+        let actionMove = SKAction.moveBy(
+            x: -size.width/2 - enemy.size.height/2,
+            y: playableRect.height/2 - enemy.size.height/2,
             duration: 1)
         
         let wait = SKAction.wait(forDuration: 0.25)
         
-        let sequence = SKAction.sequence([actionMidMove, wait, actionMove])
+        let logMessage = SKAction.run() {
+            print("Reached bottom!")
+        }
+        
+        let reverseMid = actionMidMove.reversed()
+        let reverseMove = actionMove.reversed()
+        
+        let sequence = SKAction.sequence([actionMidMove, logMessage, wait, actionMove, reverseMove, logMessage, wait, reverseMid])
         
         enemy.run(sequence)
         
