@@ -185,10 +185,9 @@ class GameScene: SKScene {
             print("Reached bottom!")
         }
         
-        let reverseMid = actionMidMove.reversed()
-        let reverseMove = actionMove.reversed()
+        let halfSequence = SKAction.sequence([actionMidMove, logMessage, wait, actionMove])
         
-        let sequence = SKAction.sequence([actionMidMove, logMessage, wait, actionMove, reverseMove, logMessage, wait, reverseMid])
+        let sequence = SKAction.sequence([halfSequence, halfSequence.reversed()])
         
         enemy.run(sequence)
         
