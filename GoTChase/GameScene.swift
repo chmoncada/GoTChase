@@ -63,6 +63,7 @@ class GameScene: SKScene {
         //hero.zRotation = .pi/8
         
         addChild(hero)
+        spawnEnemy()
         
         debugDrawPlatableArea()
     }
@@ -159,6 +160,20 @@ class GameScene: SKScene {
         let shortest = shortestAngleBetween(angle1: sprite.zRotation, angle2: direction.angle)
         let amountToRotate = min(rotateRadiansPerSec * CGFloat(dt), abs(shortest))
         sprite.zRotation += shortest.sign() * amountToRotate
+        
+    }
+    
+    func spawnEnemy() {
+        let enemy = SKSpriteNode(imageNamed: "enemy")
+        enemy.position = CGPoint(x: size.width + enemy.size.width/2,
+                                 y: size.height/2)
+        addChild(enemy)
+        
+        let actionMove = SKAction.move(
+            to: CGPoint(x: -enemy.size.width/2, y: enemy.position.y),
+            duration: 2)
+        
+        enemy.run(actionMove)
         
     }
     
