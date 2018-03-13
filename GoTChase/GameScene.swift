@@ -21,6 +21,7 @@ class GameScene: SKScene {
     var dt: TimeInterval = 0
     
     let playableRect: CGRect
+    var lastTouchLocation: CGPoint?
     
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
@@ -65,6 +66,7 @@ class GameScene: SKScene {
     }
     
     func sceneTouched(touchLocation:CGPoint) {
+        lastTouchLocation = touchLocation
         moveHeroToward(location: touchLocation)
     }
     
@@ -94,10 +96,19 @@ class GameScene: SKScene {
         lastUpdateTime = currentTime
         print("\(dt*1000) milliseconds since last update")
         
-        move(sprite: hero, velocity: velocity)
+        if let lastTouchLocation = lastTouchLocation {
+            let diff = lastTouchLocation - hero.position
+            if diff.length() <= heroMovePointsPerSecond * CGFloat(dt) {
+                hero.position = lastTouchLocation
+                velocity = .zero
+            } else {
+                move(sprite: hero, velocity: velocity)
+                rotate(sprite: hero, direction: velocity)
+            }
+        }
         
         boundsCheckHero()
-        rotate(sprite: hero, direction: velocity)
+
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
