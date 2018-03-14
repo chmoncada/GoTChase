@@ -99,7 +99,7 @@ class GameScene: SKScene {
                 },
                                SKAction.wait(forDuration: 1)])))
         
-        debugDrawPlatableArea()
+        //debugDrawPlatableArea()
     }
     
     override func didEvaluateActions() {
@@ -154,7 +154,7 @@ class GameScene: SKScene {
             gameOver = true
             print("you lose!")
             
-            let gameOverScene = GameOverScene(size: size)
+            let gameOverScene = GameOverScene(size: size, won: false)
             gameOverScene.scaleMode = scaleMode
             
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
@@ -274,7 +274,7 @@ class GameScene: SKScene {
             gameOver = true
             print("you win!")
             
-            let gameOverScene = GameOverScene(size: size)
+            let gameOverScene = GameOverScene(size: size, won: true)
             gameOverScene.scaleMode = scaleMode
             
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
