@@ -92,6 +92,10 @@ class GameScene: SKScene {
         debugDrawPlatableArea()
     }
     
+    override func didEvaluateActions() {
+        checkCollisions()
+    }
+    
     func sceneTouched(touchLocation:CGPoint) {
         lastTouchLocation = touchLocation
         moveHeroToward(location: touchLocation)
@@ -135,7 +139,6 @@ class GameScene: SKScene {
         }
         
         boundsCheckHero()
-        checkCollisions()
 
     }
     
@@ -200,9 +203,11 @@ class GameScene: SKScene {
         addChild(enemy)
         
         let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2)
+        let actionSound = SKAction.playSoundFileNamed("TIE.wav", waitForCompletion: false)
+        let group = SKAction.group([actionMove,actionSound])
         let actionRemove = SKAction.removeFromParent()
         
-        enemy.run(SKAction.sequence([actionMove, actionRemove]))
+        enemy.run(SKAction.sequence([group, actionRemove]))
         
     }
     
@@ -242,10 +247,12 @@ class GameScene: SKScene {
     
     func heroHit(ally: SKSpriteNode) {
         ally.removeFromParent()
+        run(SKAction.playSoundFileNamed("R2.wav", waitForCompletion: false))
     }
     
     func heroHit(enemy: SKSpriteNode) {
         enemy.removeFromParent()
+        run(SKAction.playSoundFileNamed("Explosion.wav", waitForCompletion: false))
     }
     
     func checkCollisions() {
