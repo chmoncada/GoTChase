@@ -79,9 +79,15 @@ class GameScene: SKScene {
         
         run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run() { [weak self] in
-                    self?.spawnEnemy()
+                self?.spawnEnemy()
                 },
-            SKAction.wait(forDuration: 2)])))
+                               SKAction.wait(forDuration: 2)])))
+        
+        run(SKAction.repeatForever(
+            SKAction.sequence([SKAction.run() { [weak self] in
+                self?.spawnAlly()
+                },
+                               SKAction.wait(forDuration: 1)])))
         
         debugDrawPlatableArea()
     }
@@ -194,6 +200,26 @@ class GameScene: SKScene {
         let actionRemove = SKAction.removeFromParent()
         
         enemy.run(SKAction.sequence([actionMove, actionRemove]))
+        
+    }
+    
+    func spawnAlly() {
+        
+        let ally = SKSpriteNode(imageNamed: "ally")
+        ally.position = CGPoint(
+            x: CGFloat.random(min: playableRect.minX,
+                              max: playableRect.maxX),
+            y: CGFloat.random(min: playableRect.minY,
+                              max: playableRect.maxY))
+        ally.setScale(0)
+        addChild(ally)
+        
+        let appear = SKAction.scale(to: 1, duration: 0.5)
+        let wait = SKAction.wait(forDuration: 10)
+        let disappear = SKAction.scale(to: 0, duration: 0.5)
+        let removeFromParent = SKAction.removeFromParent()
+        let actions = [appear,wait,disappear,removeFromParent]
+        ally.run(SKAction.sequence(actions))
         
     }
     
