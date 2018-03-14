@@ -33,6 +33,10 @@ class GameScene: SKScene {
     
     var invincible = false
     
+    var lives = 5
+    var rescueAllies = 0
+    var gameOver = false
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -146,6 +150,10 @@ class GameScene: SKScene {
         
         boundsCheckHero()
 
+        if lives <= 0 && !gameOver {
+            gameOver = true
+            print("you lose!")
+        }
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
@@ -251,8 +259,14 @@ class GameScene: SKScene {
     }
     
     func heroHit(ally: SKSpriteNode) {
+        rescueAllies += 1
         ally.removeFromParent()
         run(allyRescueSound)
+        
+        if rescueAllies >= 15 && !gameOver {
+            gameOver = true
+            print("you win!")
+        }
     }
     
     func heroHit(enemy: SKSpriteNode) {
@@ -272,6 +286,8 @@ class GameScene: SKScene {
         }
         hero.run(SKAction.sequence([blinkAction, setHidden]))
         run(enemyCollisionSound)
+        
+        lives -= 1
     }
     
     func checkCollisions() {
