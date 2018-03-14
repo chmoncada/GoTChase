@@ -215,10 +215,16 @@ class GameScene: SKScene {
         addChild(ally)
         
         let appear = SKAction.scale(to: 1, duration: 0.5)
-        let wait = SKAction.wait(forDuration: 10)
+        
+        ally.zRotation = -π / 16
+        let leftWiggle = SKAction.rotate(byAngle: π/8, duration: 0.5)
+        let rightWiggle = leftWiggle.reversed()
+        let fullWiggle = SKAction.sequence([leftWiggle,rightWiggle])
+        let wiggleWait = SKAction.repeat(fullWiggle, count: 10)
+        
         let disappear = SKAction.scale(to: 0, duration: 0.5)
         let removeFromParent = SKAction.removeFromParent()
-        let actions = [appear,wait,disappear,removeFromParent]
+        let actions = [appear,wiggleWait,disappear,removeFromParent]
         ally.run(SKAction.sequence(actions))
         
     }
