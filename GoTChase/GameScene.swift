@@ -153,6 +153,13 @@ class GameScene: SKScene {
         if lives <= 0 && !gameOver {
             gameOver = true
             print("you lose!")
+            
+            let gameOverScene = GameOverScene(size: size)
+            gameOverScene.scaleMode = scaleMode
+            
+            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            
+            view?.presentScene(gameOverScene, transition: reveal)
         }
     }
     
@@ -266,6 +273,13 @@ class GameScene: SKScene {
         if rescueAllies >= 15 && !gameOver {
             gameOver = true
             print("you win!")
+            
+            let gameOverScene = GameOverScene(size: size)
+            gameOverScene.scaleMode = scaleMode
+            
+            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            
+            view?.presentScene(gameOverScene, transition: reveal)
         }
     }
     
