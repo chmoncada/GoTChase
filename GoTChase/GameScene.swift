@@ -27,6 +27,10 @@ class GameScene: SKScene {
     
     let heroAnimation: SKAction
     
+    let enemyActionSound = SKAction.playSoundFileNamed("TIE.wav", waitForCompletion: false)
+    let allyRescueSound: SKAction = SKAction.playSoundFileNamed("R2.wav", waitForCompletion: false)
+    let enemyCollisionSound = SKAction.playSoundFileNamed("Explosion.wav", waitForCompletion: false)
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -81,7 +85,7 @@ class GameScene: SKScene {
             SKAction.sequence([SKAction.run() { [weak self] in
                 self?.spawnEnemy()
                 },
-                               SKAction.wait(forDuration: 2)])))
+                               SKAction.wait(forDuration: 4)])))
         
         run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run() { [weak self] in
@@ -203,8 +207,7 @@ class GameScene: SKScene {
         addChild(enemy)
         
         let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2)
-        let actionSound = SKAction.playSoundFileNamed("TIE.wav", waitForCompletion: false)
-        let group = SKAction.group([actionMove,actionSound])
+        let group = SKAction.group([actionMove,enemyActionSound])
         let actionRemove = SKAction.removeFromParent()
         
         enemy.run(SKAction.sequence([group, actionRemove]))
@@ -247,12 +250,12 @@ class GameScene: SKScene {
     
     func heroHit(ally: SKSpriteNode) {
         ally.removeFromParent()
-        run(SKAction.playSoundFileNamed("R2.wav", waitForCompletion: false))
+        run(allyRescueSound)
     }
     
     func heroHit(enemy: SKSpriteNode) {
         enemy.removeFromParent()
-        run(SKAction.playSoundFileNamed("Explosion.wav", waitForCompletion: false))
+        run(enemyCollisionSound)
     }
     
     func checkCollisions() {
