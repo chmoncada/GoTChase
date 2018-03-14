@@ -37,6 +37,8 @@ class GameScene: SKScene {
     var rescueAllies = 0
     var gameOver = false
     
+    let cameraNode = SKCameraNode()
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -100,6 +102,12 @@ class GameScene: SKScene {
                                SKAction.wait(forDuration: 1)])))
         
         //debugDrawPlatableArea()
+        
+        addChild(cameraNode)
+        camera = cameraNode
+        cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
+        
+        //cameraNode.position = hero.position
     }
     
     override func didEvaluateActions() {
