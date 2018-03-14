@@ -135,6 +135,7 @@ class GameScene: SKScene {
         }
         
         boundsCheckHero()
+        checkCollisions()
 
     }
     
@@ -189,6 +190,8 @@ class GameScene: SKScene {
     
     func spawnEnemy() {
         let enemy = SKSpriteNode(imageNamed: "enemy")
+        enemy.name = "enemy"
+        
         enemy.position = CGPoint(
             x: size.width + enemy.size.width/2,
             y: CGFloat.random(
@@ -206,6 +209,8 @@ class GameScene: SKScene {
     func spawnAlly() {
         
         let ally = SKSpriteNode(imageNamed: "ally")
+        ally.name = "ally"
+        
         ally.position = CGPoint(
             x: CGFloat.random(min: playableRect.minX,
                               max: playableRect.maxX),
@@ -235,4 +240,37 @@ class GameScene: SKScene {
         
     }
     
+    func heroHit(ally: SKSpriteNode) {
+        ally.removeFromParent()
+    }
+    
+    func heroHit(enemy: SKSpriteNode) {
+        enemy.removeFromParent()
+    }
+    
+    func checkCollisions() {
+        var hitAllies: [SKSpriteNode] = []
+        enumerateChildNodes(withName: "ally") { node, _ in
+            let ally = node as!SKSpriteNode
+            if ally.frame.intersects(self.hero.frame) {
+                hitAllies.append(ally)
+            }
+        }
+        
+        for ally in hitAllies {
+            heroHit(ally: ally)
+        }
+        
+        var hitEnemies: [SKSpriteNode] = []
+        enumerateChildNodes(withName: "enemy") { node, _ in
+            let enemy = node as!SKSpriteNode
+            if enemy.frame.intersects(self.hero.frame) {
+                hitEnemies.append(enemy)
+            }
+        }
+        
+        for enemy in hitEnemies {
+            heroHit(enemy: enemy)
+        }
+    }
 }
