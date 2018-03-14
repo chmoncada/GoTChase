@@ -160,16 +160,19 @@ class GameScene: SKScene {
         lastUpdateTime = currentTime
         // print("\(dt*1000) milliseconds since last update")
         
-        if let lastTouchLocation = lastTouchLocation {
-            let diff = lastTouchLocation - hero.position
-            if diff.length() <= heroMovePointsPerSecond * CGFloat(dt) {
-                hero.position = lastTouchLocation
-                velocity = .zero
-            } else {
-                move(sprite: hero, velocity: velocity)
-                rotate(sprite: hero, direction: velocity, rotateRadiansPerSec: heroRotateRadiansPerSec)
-            }
-        }
+//        if let lastTouchLocation = lastTouchLocation {
+//            let diff = lastTouchLocation - hero.position
+//            if diff.length() <= heroMovePointsPerSecond * CGFloat(dt) {
+//                hero.position = lastTouchLocation
+//                velocity = .zero
+//            } else {
+//                move(sprite: hero, velocity: velocity)
+//                rotate(sprite: hero, direction: velocity, rotateRadiansPerSec: heroRotateRadiansPerSec)
+//            }
+//        }
+        
+        move(sprite: hero, velocity: velocity)
+        rotate(sprite: hero, direction: velocity, rotateRadiansPerSec: heroRotateRadiansPerSec)
         
         boundsCheckHero()
 
@@ -210,12 +213,12 @@ class GameScene: SKScene {
     }
     
     func boundsCheckHero() {
-        let bottomLeft = CGPoint(x: 0, y: playableRect.minY)
-        let topRight = CGPoint(x: size.width, y: playableRect.maxY)
+        let bottomLeft = CGPoint(x: cameraRect.minX, y: cameraRect.minY)
+        let topRight = CGPoint(x: cameraRect.maxX, y: cameraRect.maxY)
         
         if hero.position.x <= bottomLeft.x {
             hero.position.x = bottomLeft.x
-            velocity.x = -velocity.x
+            velocity.x = abs(velocity.x)
         }
         if hero.position.x >= topRight.x {
             hero.position.x = topRight.x
@@ -243,13 +246,14 @@ class GameScene: SKScene {
         enemy.name = "enemy"
         
         enemy.position = CGPoint(
-            x: size.width + enemy.size.width/2,
+            x: cameraRect.maxX + enemy.size.width/2,
             y: CGFloat.random(
-                min: playableRect.minY + enemy.size.height/2,
-                max: playableRect.maxY - enemy.size.height/2))
+                min: cameraRect.minY + enemy.size.height/2,
+                max: cameraRect.maxY - enemy.size.height/2))
+        enemy.zPosition = 50
         addChild(enemy)
         
-        let actionMove = SKAction.moveTo(x: -enemy.size.width/2, duration: 2)
+        let actionMove = SKAction.moveBy(x: -(size.width + enemy.size.width), y: 0, duration: 2.0)
         let group = SKAction.group([actionMove,enemyActionSound])
         let actionRemove = SKAction.removeFromParent()
         
@@ -263,10 +267,11 @@ class GameScene: SKScene {
         ally.name = "ally"
         
         ally.position = CGPoint(
-            x: CGFloat.random(min: playableRect.minX,
-                              max: playableRect.maxX),
-            y: CGFloat.random(min: playableRect.minY,
-                              max: playableRect.maxY))
+            x: CGFloat.random(min: cameraRect.minX,
+                              max: cameraRect.maxX),
+            y: CGFloat.random(min: cameraRect.minY,
+                              max: cameraRect.maxY))
+        ally.zPosition = 50
         ally.setScale(0)
         addChild(ally)
         
