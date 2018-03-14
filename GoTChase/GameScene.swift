@@ -38,6 +38,7 @@ class GameScene: SKScene {
     var gameOver = false
     
     let cameraNode = SKCameraNode()
+    let cameraMovePointsPerSec: CGFloat = 200
     
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
@@ -75,11 +76,12 @@ class GameScene: SKScene {
         backgroundColor = SKColor.black
         
         // create a sprite
-        let background = SKSpriteNode(imageNamed: "background1")
+        let background = backgroundNode()
+        background.anchorPoint = CGPoint.zero
+        background.position = CGPoint.zero
+        background.name = "background"
         background.zPosition = -1
         addChild(background)
-        //background.anchorPoint = .zero
-        background.position = CGPoint(x: size.width/2, y: size.height/2)
         
         hero.position = CGPoint(x: 400, y: 400)
         
@@ -107,7 +109,6 @@ class GameScene: SKScene {
         camera = cameraNode
         cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
         
-        //cameraNode.position = hero.position
     }
     
     override func didEvaluateActions() {
@@ -169,6 +170,9 @@ class GameScene: SKScene {
             
             view?.presentScene(gameOverScene, transition: reveal)
         }
+        
+        //cameraNode.position = hero.position
+        moveCamera()
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
@@ -338,5 +342,35 @@ class GameScene: SKScene {
         for enemy in hitEnemies {
             heroHit(enemy: enemy)
         }
+    }
+    
+    func backgroundNode() -> SKSpriteNode {
+
+        let backgroundNode = SKSpriteNode()
+        backgroundNode.anchorPoint = CGPoint.zero
+        backgroundNode.name = "background"
+        
+        let background1 = SKSpriteNode(imageNamed: "background1")
+        background1.anchorPoint = CGPoint.zero
+        background1.position = CGPoint(x: 0, y: 0)
+        backgroundNode.addChild(background1)
+        
+        let background2 = SKSpriteNode(imageNamed: "background2")
+        background2.anchorPoint = CGPoint.zero
+        background2.position =
+            CGPoint(x: background1.size.width, y: 0)
+        backgroundNode.addChild(background2)
+        
+        backgroundNode.size = CGSize(
+            width: background1.size.width + background2.size.width,
+            height: background1.size.height)
+        return backgroundNode
+    }
+    
+    func moveCamera() {
+        let backgroundVelocity =
+            CGPoint(x: cameraMovePointsPerSec, y: 0)
+        let amountToMove = backgroundVelocity * CGFloat(dt)
+        cameraNode.position += amountToMove
     }
 }
