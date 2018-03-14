@@ -13,7 +13,7 @@ class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
-    private let hero = SKSpriteNode(imageNamed: "hero")
+    private let hero = SKSpriteNode(imageNamed: "hero1")
     let heroMovePointsPerSecond: CGFloat = 480
     var velocity = CGPoint.zero
     
@@ -25,6 +25,8 @@ class GameScene: SKScene {
     
     let heroRotateRadiansPerSec: CGFloat = 4.0 * π
     
+    let heroAnimation: SKAction
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -32,6 +34,17 @@ class GameScene: SKScene {
         playableRect = CGRect(x: 0, y: playableMargin,
                               width: size.width,
                               height: playableHeight)
+        
+        var textures: [SKTexture] = []
+        for i in  1...4 {
+            textures.append(SKTexture(imageNamed: "hero\(i)"))
+        }
+        
+        textures.append(textures[2])
+        textures.append(textures[1])
+        
+        heroAnimation = SKAction.animate(with: textures, timePerFrame: 0.1)
+        
         super.init(size: size)
     }
     
@@ -61,8 +74,9 @@ class GameScene: SKScene {
         // rotacion
         //hero.anchorPoint = .zero
         //hero.zRotation = .pi/8
-        
+        hero.run(SKAction.repeatForever(heroAnimation))
         addChild(hero)
+        
         run(SKAction.repeatForever(
             SKAction.sequence([SKAction.run() { [weak self] in
                     self?.spawnEnemy()
