@@ -31,6 +31,8 @@ class GameScene: SKScene {
     let allyRescueSound: SKAction = SKAction.playSoundFileNamed("R2.wav", waitForCompletion: false)
     let enemyCollisionSound = SKAction.playSoundFileNamed("Explosion.wav", waitForCompletion: false)
     
+    var invincible = false
+    
     override init(size: CGSize) {
         let maxAspectRatio: CGFloat = 16/9 // iPhone X ratio = 2.16
         let playableHeight = size.width / maxAspectRatio
@@ -254,7 +256,21 @@ class GameScene: SKScene {
     }
     
     func heroHit(enemy: SKSpriteNode) {
-        enemy.removeFromParent()
+        invincible = true
+        
+        let blinkTimes = 10.0
+        let duration = 3.0
+        let blinkAction = SKAction.customAction(withDuration: duration) { node, elapsedTime in
+            let slice = duration / blinkTimes
+            let remainder = Double(elapsedTime).truncatingRemainder(
+                dividingBy: slice)
+            node.isHidden = remainder > slice / 2
+        }
+        let setHidden = SKAction.run() { [weak self] in
+            self?.hero.isHidden = false
+            self?.invincible = false
+        }
+        hero.run(SKAction.sequence([blinkAction, setHidden]))
         run(enemyCollisionSound)
     }
     
@@ -270,6 +286,8 @@ class GameScene: SKScene {
         for ally in hitAllies {
             heroHit(ally: ally)
         }
+        
+        if invincible { return }
         
         var hitEnemies: [SKSpriteNode] = []
         enumerateChildNodes(withName: "enemy") { node, _ in
